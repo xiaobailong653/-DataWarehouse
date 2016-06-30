@@ -1,13 +1,10 @@
-# -*- coding:utf8 -*-
-#################################################
-# Create By : sunlf
-#
-# Create On : 2016-06-29
-#
-# Comment : DataWarehouse
-#################################################
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+'''
+Created on 2014年1月10日
 
-
+@author: sunlongfei
+'''
 import os
 
 import wx
@@ -19,17 +16,17 @@ from panes.create import CreatePanes
 from windows.dialog import DialogWindows
 from dmanage.config import *
 from panes.textctrl import RichTextCtrl
-from menus.menuBar import MenuBarHandler
 
 
 class DataStorageFrame(wx.Frame):
+
     def __init__(self):
         wx.Frame.__init__(self, None, -1,
                           '数据仓库',
                           size=(1024, 600),
                           pos=(50, 0))
 
-        # self.dlg = DialogWindows(self)
+        self.dlg = DialogWindows(self)
 
         # 设置默认为数据仓库
         self.flag = wx.ID_OK
@@ -47,14 +44,12 @@ class DataStorageFrame(wx.Frame):
         # 初始化各个部件
         self.initMenuBar()
         self.initStatusBar()
-        # self.initPanes()
-        # self.initObjectStorage()
+        self.initPanes()
+        self.initObjectStorage()
 
     # 初始化标题栏
     def initMenuBar(self):
-        menubar = MenuBarHandler(self)
-        self.SetMenuBar(menubar)
-
+        self.menu = CreateMenu(self)
 
     # 初始化状态栏
     def initStatusBar(self):

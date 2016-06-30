@@ -1,0 +1,20 @@
+[61f3d425-871a-473a-9808-75f823e664b9]
+status = ACTIVE
+subnets = ["10"]
+b = "dsffa"
+name = network_1386342807
+pool_id = {}
+a = {"a": "sfssdd", "b": "fdsfdsf"}
+shared = False
+id = 61f3d425-871a-473a-9808-75f823e664b9
+vlan_id = 4
+
+[039ad051-ed7f-4fa2-a014-545d001e3994]
+status = ACTIVE
+subnets = []
+name = network_1386341493
+pool_id = 1
+shared = False
+id = 039ad051-ed7f-4fa2-a014-545d001e3994
+vlan_id = 4
+

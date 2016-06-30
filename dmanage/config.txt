@@ -1,0 +1,8 @@
+[path]
+cf_defalt_path = 
+cf_defalt = 
+
+[displayjson]
+colour = 
+indent = 
+
