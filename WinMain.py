@@ -11,6 +11,7 @@
 import os
 
 import wx
+import wx.aui
 import wx.lib.agw.aui as aui
 
 from menus.create import CreateMenu
@@ -19,8 +20,9 @@ from panes.create import CreatePanes
 from windows.dialog import DialogWindows
 from dmanage.config import *
 from panes.textctrl import RichTextCtrl
-from menus.menuBar import MenuBarHandler
 
+from menus.menuBar import MenuBarHandler
+from pane import TreeCtrlHandler
 
 class DataStorageFrame(wx.Frame):
     def __init__(self):
@@ -29,16 +31,17 @@ class DataStorageFrame(wx.Frame):
                           size=(1024, 600),
                           pos=(50, 0))
 
+        self._aui = wx.aui.AuiManager(self)
         # self.dlg = DialogWindows(self)
 
         # 设置默认为数据仓库
-        self.flag = wx.ID_OK
+        # self.flag = wx.ID_OK
 
         # 设置配置文件路径
-        self.configfile = './dmanage/config.txt'
+        # self.configfile = './dmanage/config.txt'
 
         self.initFrame()
-        self.initConfig()
+        # self.initConfig()
 
     # 初始化窗口
     def initFrame(self):
@@ -47,7 +50,7 @@ class DataStorageFrame(wx.Frame):
         # 初始化各个部件
         self.initMenuBar()
         self.initStatusBar()
-        # self.initPanes()
+        self.initPanes()
         # self.initObjectStorage()
 
     # 初始化标题栏
@@ -69,12 +72,15 @@ class DataStorageFrame(wx.Frame):
 
     # 初始化中心窗口的部件
     def initPanes(self):
-        self.panes = CreatePanes(self)
-        #self.notebook = self.panes.addRighNotebook('notebook')
-        self.richtext = self.panes.addRichText('richtext')
-        self.tb1 = self.panes.addToolBar('tb1')
-        self.cf_tree = None
-        self.os_tree = None
+        tree = TreeCtrlHandler(self, "test")
+        self._aui.AddPane(tree,
+                          wx.aui.AuiPaneInfo().Left().MaximizeButton().CloseButton(False))
+        text =  wx.TextCtrl(self, -1, 'Pane 2 - sample text',
+                              wx.DefaultPosition, wx.Size(200,150),
+                              wx.NO_BORDER | wx.TE_MULTILINE)
+        self._aui.AddPane(text, wx.aui.AuiPaneInfo().Center())
+
+        self._aui.Update()
 
     def initObjectStorage(self):
         self.aliyun = None

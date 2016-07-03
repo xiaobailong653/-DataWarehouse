@@ -13,7 +13,7 @@ Created on 2014年1月26日
 
 import wx
 from windows.dialog import DialogWindows
-from panes.treectrl import TreeControl
+# from panes.treectrl import TreeControl
 
 from objectstorage.aliyun import Aliyun
 
