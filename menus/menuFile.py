@@ -47,19 +47,6 @@ class MenuFile(BaseMenu):
                 '',
                 ('&退出', u'退出数据仓库', self.OnCloseWindow))
 
-    def _show_data_storage(self, path, flag=DS_CREATE):
-        storage_name = os.path.basename(path)
-        self.parent.cf_tree = self.parent.panes.addCFTree(storage_name,
-                                                          storage_name,
-                                                          path)
-        update_option(self.parent.configfile,
-                      'path', 'cf_defalt_path', path)
-
-    def _create_data_storage(self, path):
-        cf = ComplexFile()
-        cf.createCF(path)
-        self._show_data_storage(path)
-
     # 新建数据仓库
     def OnNew(self, event):
         dlg = wx.FileDialog(self.parent,

@@ -1,0 +1,55 @@
+<warehouse>
+    <title create="2013-02-17" update="">
+        <name>complexfile</name>
+    </title>
+    <body>
+        <stream create="2013-02-17" update="">
+            <name>stream-01</name>
+            <value>hello stream-01<value>
+            <stream create="2013-02-17" update="">
+                <name>stream-01-01</name>
+                <value>hello stream-01-01<value>
+            </stream>
+            <stream create="2013-02-17" update="">
+                <name>stream-01-02</name>
+                <value>hello stream-01-02<value>
+            </stream>
+        </stream>
+        <stream create="2013-02-17" update="">
+            <name>stream-02</name>
+            <value>hello stream-02<value>
+            <stream create="2013-02-17" update="">
+                <name>stream-02-01</name>
+                <value>hello stream-02-01<value>
+            </stream>
+            <stream create="2013-02-17" update="">
+                <name>stream-02-02</name>
+                <value>hello stream-02-02<value>
+            </stream>
+        </stream>
+        <stream create="2013-02-17" update="">
+            <name>stream-03</name>
+            <value>hello stream-03<value>
+            <stream create="2013-02-17" update="">
+                <name>stream-03-01</name>
+                <value>hello stream-03-01<value>
+            </stream>
+            <stream create="2013-02-17" update="">
+                <name>stream-03-02</name>
+                <value>hello stream-03-02<value>
+            </stream>
+        </stream>
+        <stream create="2013-02-17" update="">
+            <name>stream-04</name>
+            <value>hello stream-04<value>
+            <stream create="2013-02-17" update="">
+                <name>stream-04-01</name>
+                <value>hello stream-04-01<value>
+            </stream>
+            <stream create="2013-02-17" update="">
+                <name>stream-04-02</name>
+                <value>hello stream-04-02<value>
+            </stream>
+        </stream>
+    </body>
+</warehouse>
