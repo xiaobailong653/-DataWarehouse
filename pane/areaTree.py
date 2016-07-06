@@ -9,6 +9,8 @@
 
 import wx
 
+from menus.menuStroage import MenuStorage
+
 
 class TreeCtrlHandler(wx.TreeCtrl):
     def __init__(self, parent, treeName, *args, **kw):
@@ -52,76 +54,11 @@ class TreeCtrlHandler(wx.TreeCtrl):
 
     def OnItemRight(self, event):
         item = event.GetItem()
-        self.SelectItem(item, select=True)  # 设置选中的Item
-        menuData = self.menuCFData()
-        self.menu = self.createMenu(menuData)
-        self.PopupMenu(self.menu)
+        self.SelectItem(item, select=True)
+        menu = MenuStorage(self.parent)
+        menu.createMenuItem()
+        self.PopupMenu(menu)
         event.Skip()
 
     def OnItemMenu(self, event):
-        pass
-
-    def createMenu(self, menuData):
-        menu = wx.Menu()
-        for eachItem in menuData:
-            if eachItem[0]:
-                item = menu.Append(-1, eachItem[0], eachItem[1])
-                self.parent.Bind(wx.EVT_MENU, eachItem[2], item)
-            else:
-                menu.AppendSeparator()
-
-        return menu
-
-    def menuCFData(self):
-        return (('&添加子节点', '在当前节点下增加子节点', self.OnAddChildNode),
-                ('&向前插入节点', '在当前节点前面插入节点', self.OnAddBefNode),
-                ('&向后插入节点', '在当前节点后面插入节点', self.OnAddAftNode),
-                ('', '', ''),
-                ('&剪切', '剪切当前节点', self.OnCut),
-                ('&复制', '复制当前节点', self.OnCopy),
-                ('&粘贴', '粘贴节点成为当前节点的子节点', self.OnPaste),
-                ('', '', ''),
-                ('&删除', '删除当前节点', self.OnDelNode),
-                ('', '', ''),
-                ('&节点上移', '在当前节点下增加子节点', self.OnMoveUp),
-                ('&节点下移', '在当前节点下增加子节点', self.OnMoveDown),
-                ('&节点左移', '在当前节点下增加子节点', self.OnMoveLeft),
-                ('&节点右移', '在当前节点下增加子节点', self.OnMoveRight),
-                ('', '', ''),
-                ('&刷新', '刷新', self.OnRefresh),)
-
-    def OnAddChildNode(self, event):
-        pass
-
-    def OnAddBefNode(self, event):
-        pass
-
-    def OnAddAftNode(self, event):
-        pass
-
-    def OnCut(self, event):
-        pass
-
-    def OnCopy(self, event):
-        pass
-
-    def OnPaste(self, event):
-        pass
-
-    def OnDelNode(self, event):
-        pass
-
-    def OnMoveUp(self, event):
-        pass
-
-    def OnMoveDown(self, event):
-        pass
-
-    def OnMoveLeft(self, event):
-        pass
-
-    def OnMoveRight(self, event):
-        pass
-
-    def OnRefresh(self, event):
         pass

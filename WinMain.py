@@ -23,6 +23,8 @@ from panes.textctrl import RichTextCtrl
 
 from menus.menuBar import MenuBarHandler
 from pane import TreeCtrlHandler
+from pane import RichTextHandler
+
 
 class DataStorageFrame(wx.Frame):
     def __init__(self):
@@ -51,13 +53,11 @@ class DataStorageFrame(wx.Frame):
         self.initMenuBar()
         self.initStatusBar()
         self.initPanes()
-        # self.initObjectStorage()
 
     # 初始化标题栏
     def initMenuBar(self):
         menubar = MenuBarHandler(self)
         self.SetMenuBar(menubar)
-
 
     # 初始化状态栏
     def initStatusBar(self):
@@ -72,20 +72,14 @@ class DataStorageFrame(wx.Frame):
 
     # 初始化中心窗口的部件
     def initPanes(self):
-        tree = TreeCtrlHandler(self, "test")
-        self._aui.AddPane(tree,
-                          wx.aui.AuiPaneInfo().Left().MaximizeButton().CloseButton(False))
-        text =  wx.TextCtrl(self, -1, 'Pane 2 - sample text',
-                              wx.DefaultPosition, wx.Size(200,150),
-                              wx.NO_BORDER | wx.TE_MULTILINE)
-        self._aui.AddPane(text, wx.aui.AuiPaneInfo().Center())
+        lefttree = TreeCtrlHandler(self, "test")
+        self._aui.AddPane(lefttree,
+                          wx.aui.AuiPaneInfo().Left().
+                          MaximizeButton().CloseButton(False))
+        richtext = RichTextHandler(self)
+        self._aui.AddPane(richtext, wx.aui.AuiPaneInfo().Center())
 
         self._aui.Update()
-
-    def initObjectStorage(self):
-        self.aliyun = None
-        self.s3 = None
-        self.swift = None
 
     def configData(self):
         return {'path': {

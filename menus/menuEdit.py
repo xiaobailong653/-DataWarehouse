@@ -9,6 +9,7 @@
 
 from baseMenu import BaseMenu
 
+
 class MenuEdit(BaseMenu):
     __menuName__ = "&编辑"
 

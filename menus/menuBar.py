@@ -12,6 +12,7 @@ import wx
 
 from menuFile import MenuFile
 from menuEdit import MenuEdit
+from menuStroage import MenuStorage
 
 
 class MenuBarHandler(wx.MenuBar):
@@ -25,7 +26,9 @@ class MenuBarHandler(wx.MenuBar):
             menuObject = menu(self.parent)
             menuObject.createMenuItem()
             self.Append(menuObject, menuObject.__menuName__)
+            menuObject.bindEvents()
 
     def menuObjects(self):
         return (MenuFile,
-                MenuEdit,)
+                MenuEdit,
+                MenuStorage,)
