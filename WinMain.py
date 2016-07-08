@@ -1,4 +1,4 @@
-# -*- coding:utf8 -*-
+# -*- coding: utf8 -*-
 #################################################
 # Create By : sunlf
 #
@@ -29,7 +29,7 @@ from pane import RichTextHandler
 class DataStorageFrame(wx.Frame):
     def __init__(self):
         wx.Frame.__init__(self, None, -1,
-                          '数据仓库',
+                          u'数据仓库',
                           size=(1024, 600),
                           pos=(50, 0))
 

@@ -12,6 +12,7 @@ import os
 from menus.printer import PrintWork
 from windows.dialog import DialogWindows
 from dmanage.complexfile import ComplexFile
+from dmanage.warehouse import WarehouseHandler
 from dmanage.config import *
 from baseMenu import BaseMenu
 ###############################################################
@@ -56,8 +57,13 @@ class MenuFile(BaseMenu):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath().encode('utf-8')
             if path:
-                self._create_data_storage(path)
+                self._create_warehouse(path)
         dlg.Destroy()
+
+    def _create_warehouse(self, path):
+        warehouse = WarehouseHandler(path)
+        warehouse.create()
+        warehouse.save()
 
     # 打开数据仓库
     def OnOpen(self, event):
@@ -71,8 +77,10 @@ class MenuFile(BaseMenu):
                 self._show_data_storage(path, DS_OPEN)
         dlg.Destroy()
 
-#         path = "D://mydatabase/datastorage/test.xml"
-#         self._show_data_storage(path, DS_OPEN)
+    def _open_warehouse(self, path):
+        warehouse = WarehouseHandler(path)
+        treeData = warehouse.getAllNodes()
+
 
     # 保存更改到数据仓库
     def OnSave(self, event):
