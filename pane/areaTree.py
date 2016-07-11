@@ -10,19 +10,24 @@
 import wx
 
 from menus.menuStroage import MenuStorage
+from utils.decorators import singleton
 
 
+@singleton
 class TreeCtrlHandler(wx.TreeCtrl):
-    def __init__(self, parent, treeName, *args, **kw):
-        super(TreeCtrlHandler, self).__init__(parent,
-                                              size=(200, 600),
-                                              *args, **kw)
+    def __init__(self, parent, *args, **kw):
+        style = wx.TR_HIDE_ROOT | wx.TR_HAS_BUTTONS
+        wx.TreeCtrl.__init__(self, parent,
+                             size=(200, 600),
+                             style=style,
+                             *args, **kw)
         self.parent = parent
+        self.root = None
+        self.initBind()
+
+    def setRootItem(self, treeName):
         rootData = wx.TreeItemData(treeName)
         self.root = self.AddRoot(treeName, data=rootData)
-        data = wx.TreeItemData("first")
-        self.AppendItem(self.root, "first", data=data)
-        self.initBind()
 
     def initBind(self):
         self.parent.Bind(wx.EVT_TREE_SEL_CHANGED, self.OnSelChanged)
@@ -33,6 +38,13 @@ class TreeCtrlHandler(wx.TreeCtrl):
         self.parent.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.OnItemExpanded)
         self.parent.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.OnItemRight)
         self.parent.Bind(wx.EVT_TREE_ITEM_MENU, self.OnItemMenu)
+
+    def loadData(self, farther, data):
+        for item in data:
+            treeItem = wx.TreeItemData(item['name'])
+            treeItem.SetData(item['instance'])
+            self.AppendItem(self.root, item['name'], data=treeItem)
+            self.loadData(treeItem, item['child'])
 
     def OnSelChanged(self, event):
         pass

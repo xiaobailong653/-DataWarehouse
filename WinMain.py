@@ -72,7 +72,7 @@ class DataStorageFrame(wx.Frame):
 
     # 初始化中心窗口的部件
     def initPanes(self):
-        lefttree = TreeCtrlHandler(self, "test")
+        lefttree = TreeCtrlHandler(self)
         self._aui.AddPane(lefttree,
                           wx.aui.AuiPaneInfo().Left().
                           MaximizeButton().CloseButton(False))

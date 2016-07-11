@@ -11,7 +11,7 @@ import wx
 import os
 from menus.printer import PrintWork
 from windows.dialog import DialogWindows
-from dmanage.complexfile import ComplexFile
+from pane.areaTree import TreeCtrlHandler
 from dmanage.warehouse import WarehouseHandler
 from dmanage.config import *
 from baseMenu import BaseMenu
@@ -20,8 +20,7 @@ DS = 10000
 DS_CREATE = DS + 1
 DS_OPEN = DS + 2
 ###############################################################
-wildcard = "DataStorage (*.slf)|*.slf|"\
-           "All files (*.*)|*.*"
+wildcard = "All files (*.*)|*.*"
 ###############################################################
 
 
@@ -64,6 +63,7 @@ class MenuFile(BaseMenu):
         warehouse = WarehouseHandler(path)
         warehouse.create()
         warehouse.save()
+        self._open_warehouse(path)
 
     # 打开数据仓库
     def OnOpen(self, event):
@@ -74,12 +74,16 @@ class MenuFile(BaseMenu):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             if path:
-                self._show_data_storage(path, DS_OPEN)
+                self._open_warehouse(path)
         dlg.Destroy()
 
     def _open_warehouse(self, path):
         warehouse = WarehouseHandler(path)
         treeData = warehouse.getAllNodes()
+        domName = warehouse.getDomName()
+        leftTree = TreeCtrlHandler(self.parent)
+        leftTree.setRootItem(domName)
+        leftTree.loadData(leftTree.root, treeData)
 
 
     # 保存更改到数据仓库

@@ -45,6 +45,7 @@ class WarehouseHandler(object):
         for child in doc.childNodes:
             if child.nodeType == child.ELEMENT_NODE:
                 data = {key: value for key, value in child.attributes.items()}
+                data['instance'] = child
                 data['child'] = self.parseDom(child)
                 dom.append(data)
         return dom
