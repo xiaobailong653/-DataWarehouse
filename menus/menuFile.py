@@ -94,6 +94,7 @@ class MenuFile(BaseMenu):
         treeData = warehouse.getAllNodes()
         domName = warehouse.getDomName()
         leftTree = TreeCtrlHandler(self.parent)
+        leftTree.DeleteAllItems()
         leftTree.setRootItem(domName)
         leftTree.setTreeDom(warehouse)
         leftTree.loadData(leftTree.root, treeData)

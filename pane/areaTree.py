@@ -24,6 +24,8 @@ class TreeCtrlHandler(wx.TreeCtrl):
         self.root = None
         self.treeDom = None
         self.initBind()
+        self.GetSelection
+        self.GetItemParent
 
     def setRootItem(self, treeName):
         rootData = wx.TreeItemData(treeName)
@@ -51,6 +53,24 @@ class TreeCtrlHandler(wx.TreeCtrl):
             treeItem.SetData(item['instance'])
             self.AppendItem(self.root, item['name'], data=treeItem)
             self.loadData(treeItem, item['child'])
+
+    def insertItemNode(self, currentItem, itemType):
+        text = u"新建节点"
+        treeItem = wx.TreeItemData(text)
+        if itemType == 'child':
+            treeItem = wx.TreeItemData(text)
+            treeItemId = self.AppendItem(currentItem, text, data=treeItem)
+            self.Expand(currentItem)
+        elif itemType == 'before':
+            parentItem = self.GetItemParent(currentItem)
+            index = self.getItemIndex(currentItem)
+            treeItemId = self.InsertItemBefore(parentItem, index, text, data=treeItem)
+        else:
+            parentItem = self.GetItemParent(currentItem)
+            treeItemId = self.InsertItem(parentItem, currentItem, text, data=treeItem)
+
+        self.SelectItem(treeItemId)
+        self.EditLabel(treeItemId)
 
     def OnSelChanged(self, event):
         pass

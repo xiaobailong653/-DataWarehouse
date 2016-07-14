@@ -62,17 +62,23 @@ class MenuStorage(BaseMenu):
                 (self.OnMoveRight, ID_MoveRightNode),
                 (self.OnNodeAttribute, ID_NodeAttribute),)
 
+    def _insertNode(self, nodeType):
+        leftTree = self.parent.leftTree
+        treeItemId = leftTree.GetSelection()
+        print dir(treeItemId)
+        leftTree.insertItemNode(treeItemId, nodeType)
+
     # 插入子节点
     def OnAddChildNode(self, event):
-        print "this is OnAddChildNode"
+        self._insertNode("child")
 
     # 向前插入节点
     def OnAddBefNode(self, event):
-        print "this is OnAddBefNode"
+        self._insertNode("before")
 
     # 向后插入节点
     def OnAddAftNode(self, event):
-        print "this is OnAddAftNode"
+        self._insertNode("after")
 
     # 剪切节点
     def OnCutNode(self, event):

@@ -51,9 +51,10 @@ class DataStorageFrame(wx.Frame):
         # 设置窗口最小值
         self.SetMinSize(wx.Size(400, 300))
         # 初始化各个部件
-        self.initMenuBar()
+        
         self.initStatusBar()
         self.initPanes()
+        self.initMenuBar()
 
     # 初始化标题栏
     def initMenuBar(self):
@@ -73,14 +74,14 @@ class DataStorageFrame(wx.Frame):
 
     # 初始化中心窗口的部件
     def initPanes(self):
-        lefttree = TreeCtrlHandler(self)
-        self._aui.AddPane(lefttree,
+        self.leftTree = TreeCtrlHandler(self)
+        self._aui.AddPane(self.leftTree,
                           wx.aui.AuiPaneInfo().Left().
                           MaximizeButton().CloseButton(False))
-        richtext = RichTextHandler(self)
-        self._aui.AddPane(richtext, wx.aui.AuiPaneInfo().Center())
-        toolbar = ToolbarHandler(self)
-        self._aui.AddPane(toolbar, wx.aui.AuiPaneInfo().Name("toolbar").ToolbarPane().Top())
+        self.richtext = RichTextHandler(self)
+        self._aui.AddPane(self.richtext, wx.aui.AuiPaneInfo().Center())
+        self.toolbar = ToolbarHandler(self)
+        self._aui.AddPane(self.toolbar, wx.aui.AuiPaneInfo().Name("toolbar").ToolbarPane().Top())
 
         self._aui.Update()
 
