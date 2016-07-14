@@ -16,4 +16,3 @@ class RichTextHandler(wx.richtext.RichTextCtrl):
         super(RichTextHandler, self).__init__(parent, -1,
                                               style=style,
                                               name="areaData")
-        self.parent = parent

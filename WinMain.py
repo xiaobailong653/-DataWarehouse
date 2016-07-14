@@ -24,6 +24,7 @@ from panes.textctrl import RichTextCtrl
 from menus.menuBar import MenuBarHandler
 from pane import TreeCtrlHandler
 from pane import RichTextHandler
+from pane import ToolbarHandler
 
 
 class DataStorageFrame(wx.Frame):
@@ -78,6 +79,8 @@ class DataStorageFrame(wx.Frame):
                           MaximizeButton().CloseButton(False))
         richtext = RichTextHandler(self)
         self._aui.AddPane(richtext, wx.aui.AuiPaneInfo().Center())
+        toolbar = ToolbarHandler(self)
+        self._aui.AddPane(toolbar, wx.aui.AuiPaneInfo().Name("toolbar").ToolbarPane().Top())
 
         self._aui.Update()
 

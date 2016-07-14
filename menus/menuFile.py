@@ -15,6 +15,11 @@ from pane.areaTree import TreeCtrlHandler
 from dmanage.warehouse import WarehouseHandler
 from dmanage.config import *
 from baseMenu import BaseMenu
+from eventId import (
+    ID_NewDataWarehouse,
+    ID_OpenDataWarehouse,
+    ID_SavePage,
+    ID_SaveAllPage)
 ###############################################################
 DS = 10000
 DS_CREATE = DS + 1
@@ -32,11 +37,11 @@ class MenuFile(BaseMenu):
         self.parent = parent
 
     def menuItemData(self):
-        return (('&创建数据仓库', u'创建一个新的数据仓库', self.OnNew),
-                ('&打开数据仓库', u'打开一个已经存在的数据仓库', self.OnOpen),
+        return (('&创建数据仓库', u'创建一个新的数据仓库', ID_NewDataWarehouse),
+                ('&打开数据仓库', u'打开一个已经存在的数据仓库', ID_OpenDataWarehouse),
                 '',
-                ('&保存', u'保存更改到当前的数据仓库', self.OnSave),
-                ('&保存全部', u'保存全部的更改到所有打开的数据仓库', self.OnSaveAll),
+                ('&保存', u'保存更改到当前的数据仓库', ID_SavePage),
+                ('&保存全部', u'保存全部的更改到所有打开的数据仓库', ID_SaveAllPage),
                 '',
                 ('&关闭', u'关闭当前打开的数据仓库', self.OnClose),
                 ('&关闭全部', u'关闭所有打开的数据仓库', self.OnCloseAll),
@@ -46,6 +51,13 @@ class MenuFile(BaseMenu):
                 ('&打印', u'打印文档', self.OnPrinter),
                 '',
                 ('&退出', u'退出数据仓库', self.OnCloseWindow))
+
+    def bindData(self):
+        return ((self.OnNew, ID_NewDataWarehouse),
+                (self.OnOpen, ID_OpenDataWarehouse),
+                (self.OnSave, ID_SavePage),
+                (self.OnSaveAll, ID_SaveAllPage))
+
 
     # 新建数据仓库
     def OnNew(self, event):
@@ -83,6 +95,7 @@ class MenuFile(BaseMenu):
         domName = warehouse.getDomName()
         leftTree = TreeCtrlHandler(self.parent)
         leftTree.setRootItem(domName)
+        leftTree.setTreeDom(warehouse)
         leftTree.loadData(leftTree.root, treeData)
 
 

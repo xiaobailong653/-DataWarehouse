@@ -21,23 +21,29 @@ class TreeCtrlHandler(wx.TreeCtrl):
                              size=(200, 600),
                              style=style,
                              *args, **kw)
-        self.parent = parent
         self.root = None
+        self.treeDom = None
         self.initBind()
 
     def setRootItem(self, treeName):
         rootData = wx.TreeItemData(treeName)
         self.root = self.AddRoot(treeName, data=rootData)
 
+    def setTreeDom(self, dom):
+        self.treeDom = dom
+
+    def getTreeDom(self):
+        return self.treeDom
+
     def initBind(self):
-        self.parent.Bind(wx.EVT_TREE_SEL_CHANGED, self.OnSelChanged)
-        self.parent.Bind(wx.EVT_TREE_BEGIN_LABEL_EDIT, self.OnBeginLabelEdit)
-        self.parent.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.OnEndLabelEdit)
-        self.parent.Bind(wx.EVT_TREE_DELETE_ITEM, self.OnDeleteItem)
-        self.parent.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnItemActivated)
-        self.parent.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.OnItemExpanded)
-        self.parent.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.OnItemRight)
-        self.parent.Bind(wx.EVT_TREE_ITEM_MENU, self.OnItemMenu)
+        self.Parent.Bind(wx.EVT_TREE_SEL_CHANGED, self.OnSelChanged)
+        self.Parent.Bind(wx.EVT_TREE_BEGIN_LABEL_EDIT, self.OnBeginLabelEdit)
+        self.Parent.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.OnEndLabelEdit)
+        self.Parent.Bind(wx.EVT_TREE_DELETE_ITEM, self.OnDeleteItem)
+        self.Parent.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnItemActivated)
+        self.Parent.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.OnItemExpanded)
+        self.Parent.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.OnItemRight)
+        self.Parent.Bind(wx.EVT_TREE_ITEM_MENU, self.OnItemMenu)
 
     def loadData(self, farther, data):
         for item in data:
@@ -67,7 +73,7 @@ class TreeCtrlHandler(wx.TreeCtrl):
     def OnItemRight(self, event):
         item = event.GetItem()
         self.SelectItem(item, select=True)
-        menu = MenuStorage(self.parent)
+        menu = MenuStorage(self.Parent)
         menu.createMenuItem()
         self.PopupMenu(menu)
         event.Skip()
