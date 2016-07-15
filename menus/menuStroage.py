@@ -65,7 +65,6 @@ class MenuStorage(BaseMenu):
     def _insertNode(self, nodeType):
         leftTree = self.parent.leftTree
         treeItemId = leftTree.GetSelection()
-        print dir(treeItemId)
         leftTree.insertItemNode(treeItemId, nodeType)
 
     # 插入子节点

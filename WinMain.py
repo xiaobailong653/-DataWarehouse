@@ -12,7 +12,6 @@ import os
 
 import wx
 import wx.aui
-import wx.lib.agw.aui as aui
 
 from menus.create import CreateMenu
 from toolbar.create import CreateToolBar
