@@ -35,9 +35,14 @@ class WarehouseHandler(object):
         treeNode.setAttribute("content", "url")
         root.appendChild(treeNode)
 
+    def getRoot(self):
+
+        return minidom.parse(self.filePath).documentElement
+
     def getAllNodes(self):
         self.doc = minidom.parse(self.filePath)
         root = self.doc.documentElement
+        print dir(root)
         return self.parseDom(root)
 
     def parseDom(self, doc):
@@ -49,6 +54,15 @@ class WarehouseHandler(object):
                 data['child'] = self.parseDom(child)
                 dom.append(data)
         return dom
+
+    def addNodeByPath(self, path, name):
+        path.reverse()
+        root = self.getRoot()
+        child = root.childNodes[path[0]+1]
+        print child
+        for index in path[1:-1]:
+            child = child.childNodes[index]
+        print child
 
     def save(self):
         fname = codecs.open(self.filePath, 'w', 'utf-8')

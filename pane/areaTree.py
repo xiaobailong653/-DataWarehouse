@@ -11,6 +11,7 @@ import wx
 
 from menus.menuStroage import MenuStorage
 from utils.decorators import singleton
+from dmanage.warehouse import WarehouseHandler
 
 
 @singleton
@@ -25,6 +26,17 @@ class TreeCtrlHandler(wx.TreeCtrl):
         self.treeDom = None
         self.initBind()
         self.initImageList()
+        self.initData()
+
+    def initData(self):
+        path = "other/other.xml"
+        warehouse = WarehouseHandler(path)
+        treeData = warehouse.getAllNodes()
+        domName = warehouse.getDomName()
+        self.DeleteAllItems()
+        self.setRootItem(domName)
+        self.setTreeDom(warehouse)
+        self.loadData(self.root, treeData)
 
     def setRootItem(self, treeName):
         rootData = wx.TreeItemData(treeName)
@@ -87,6 +99,23 @@ class TreeCtrlHandler(wx.TreeCtrl):
         self.SelectItem(treeItemId)
         self.EditLabel(treeItemId)
 
+    def getItemIndex(self, item):
+        i = 0
+        prev = self.GetPrevSibling(item)
+        while prev.IsOk():
+            i = i + 1
+            prev = self.GetPrevSibling(prev)
+
+        return i
+
+    def getTreePath(self, item):
+        path = []
+        path.append(self.getItemIndex(item))
+        parent = self.GetItemParent(item)
+        if parent != self.root:
+            path += self.getTreePath(parent)
+        return path
+
     def OnSelChanged(self, event):
         pass
 
@@ -94,7 +123,9 @@ class TreeCtrlHandler(wx.TreeCtrl):
         pass
 
     def OnEndLabelEdit(self, event):
-        pass
+        path = self.getTreePath(event.Item)
+        text = event.GetLabel()
+        self.treeDom.addNodeByPath(path, text)
 
     def OnDeleteItem(self, event):
         pass

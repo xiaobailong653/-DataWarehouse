@@ -11,14 +11,7 @@
 import os
 
 import wx
-import wx.aui
-
-from menus.create import CreateMenu
-from toolbar.create import CreateToolBar
-from panes.create import CreatePanes
-from windows.dialog import DialogWindows
-from dmanage.config import *
-from panes.textctrl import RichTextCtrl
+import wx.lib.agw.aui as aui
 
 from menus.menuBar import MenuBarHandler
 from pane import TreeCtrlHandler
@@ -33,7 +26,7 @@ class DataStorageFrame(wx.Frame):
                           size=(1024, 600),
                           pos=(50, 0))
 
-        self._aui = wx.aui.AuiManager(self)
+        self._mgr = aui.AuiManager(self)
         # self.dlg = DialogWindows(self)
 
         # 设置默认为数据仓库
@@ -50,7 +43,6 @@ class DataStorageFrame(wx.Frame):
         # 设置窗口最小值
         self.SetMinSize(wx.Size(400, 300))
         # 初始化各个部件
-        
         self.initStatusBar()
         self.initPanes()
         self.initMenuBar()
@@ -66,71 +58,62 @@ class DataStorageFrame(wx.Frame):
         self.statusbar.SetFieldsCount(3)
         self.statusbar.SetStatusWidths([-2, -2, -1])
 
-    # 初始化工具栏
-    def initToolBar(self):
-        pass
-        # self.toolbar = CreateToolBar(self)
-
     # 初始化中心窗口的部件
     def initPanes(self):
         self.leftTree = TreeCtrlHandler(self)
-        self._aui.AddPane(self.leftTree,
-                          wx.aui.AuiPaneInfo().Left().
-                          MaximizeButton().CloseButton(False))
+        self._mgr.AddPane(self.leftTree,
+                          aui.AuiPaneInfo().Name("warehouse").
+                          Caption("Tree Pane").Left().Layer(1).
+                          Position(1).CloseButton(False).MinimizeButton(True))
         self.richtext = RichTextHandler(self)
-        self._aui.AddPane(self.richtext, wx.aui.AuiPaneInfo().Center())
-        self.toolbar = ToolbarHandler(self)
-        self._aui.AddPane(self.toolbar, wx.aui.AuiPaneInfo().Name("toolbar").ToolbarPane().Top())
+        self._mgr.AddPane(self.richtext,
+                          aui.AuiPaneInfo().Name("notebook_content").
+                          CenterPane().PaneBorder(False))
+        toolbar = ToolbarHandler(self)
+        self._mgr.AddPane(toolbar,
+                          aui.AuiPaneInfo().Name("tb2").Caption("Toolbar 2").
+                          ToolbarPane().Top().Row(1))
 
-        self._aui.Update()
-
-    def configData(self):
-        return {'path': {
-            'cf_defalt_path': '',
-            'cf_defalt': ''},
-            'displayjson': {
-            'colour': '',
-            'indent': ''}
-        }
-
-    def initConfig(self):
-        if not os.path.exists(self.configfile):
-            create_configfile(self.configfile, self.configData())
+        self._mgr.Update()
 
     def bindEvent(self):
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUi)
 
-    def getPaneHandle(self):
-        return self.panes
-
-    def getCFTreeHandle(self):
-        return self.panes.left_cf_tree
-
-    def getOSTreeHandle(self):
-        return self.panes.left_os_tree
-
-    def getNotebookHandle(self):
-        return self.notebook
-
-    def getToolbarHandle(self):
-        return self.tb1
-
     def OnClose(self, event):
-        content = '以下数据仓库已经做修改， 是否保存修改到数据仓库？'
-        result = self.dlg.question_message('数据仓库', content, wx.CANCEL)
-        if result == wx.ID_NO:
-            self.Destroy()
-        elif result == wx.ID_YES:
-            print '保存数据'
-            self.Destroy()
+        self.Destroy()
 
-    def OnUpdateUi(self, event):
-        print 'Update ui'
+    def CreateTreeCtrl(self):
+        tree = wx.TreeCtrl(self, -1, wx.Point(0, 0), wx.Size(160, 250),
+                           wx.TR_DEFAULT_STYLE | wx.NO_BORDER)
 
+        imglist = wx.ImageList(16, 16, True, 2)
+        imglist.Add(wx.ArtProvider.GetBitmap(wx.ART_FOLDER, wx.ART_OTHER, wx.Size(16, 16)))
+        imglist.Add(wx.ArtProvider.GetBitmap(wx.ART_NORMAL_FILE, wx.ART_OTHER, wx.Size(16, 16)))
+        tree.AssignImageList(imglist)
+
+        root = tree.AddRoot("AUI Project", 0)
+        items = []
+
+        items.append(tree.AppendItem(root, "Item 1", 0))
+        items.append(tree.AppendItem(root, "Item 2", 0))
+        items.append(tree.AppendItem(root, "Item 3", 0))
+        items.append(tree.AppendItem(root, "Item 4", 0))
+        items.append(tree.AppendItem(root, "Item 5", 0))
+
+        for item in items:
+            tree.AppendItem(item, "Subitem 1", 1)
+            tree.AppendItem(item, "Subitem 2", 1)
+            tree.AppendItem(item, "Subitem 3", 1)
+            tree.AppendItem(item, "Subitem 4", 1)
+            tree.AppendItem(item, "Subitem 5", 1)
+
+        tree.Expand(root)
+
+        return tree
 
 if __name__ == '__main__':
-    app = wx.PySimpleApp()
+    app = wx.App()
     frame = DataStorageFrame()
     frame.Show()
     app.MainLoop()

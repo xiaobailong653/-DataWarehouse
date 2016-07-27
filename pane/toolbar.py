@@ -8,7 +8,7 @@
 #################################################
 
 import wx
-import wx.aui as aui
+import wx.lib.agw.aui as aui
 
 from utils.decorators import singleton
 from eventId import (
@@ -16,20 +16,16 @@ from eventId import (
     ID_OpenDataWarehouse,
     ID_SavePage)
 
-
-@singleton
+# @singleton
 class ToolbarHandler(aui.AuiToolBar):
     def __init__(self, parent, *args, **kw):
-        aui.AuiToolBar.__init__(self, parent, -1,
-                                wx.DefaultPosition,
-                                wx.DefaultSize)
+        aui.AuiToolBar.__init__(self, parent)
         self.initToorbar()
-        self.AddTool
 
     def initToorbar(self):
         self.SetToolBitmapSize(wx.Size(16, 16))
         tb3_bmp1 = wx.ArtProvider.GetBitmap(wx.ART_FOLDER, wx.ART_OTHER, wx.Size(16, 16))
-        self.AddTool(ID_NewDataWarehouse, u"新建", tb3_bmp1, u"新建")
-        self.AddTool(ID_OpenDataWarehouse, u"打开", tb3_bmp1, u"打开")
-        self.AddTool(ID_SavePage, u"保存", tb3_bmp1, u"保存")
+        self.AddSimpleTool(ID_NewDataWarehouse, u"新建", tb3_bmp1)
+        self.AddSimpleTool(ID_OpenDataWarehouse, u"打开", tb3_bmp1)
+        self.AddSimpleTool(ID_SavePage, u"保存", tb3_bmp1)
         self.AddSeparator()

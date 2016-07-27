@@ -7,7 +7,7 @@
 # Comment : DataWarehouse
 #################################################
 
-import wx
+import wx.richtext
 
 
 class RichTextHandler(wx.richtext.RichTextCtrl):
